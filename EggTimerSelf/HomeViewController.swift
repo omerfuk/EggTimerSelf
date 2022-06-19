@@ -27,6 +27,14 @@ class HomeViewController: UIViewController {
         view.backgroundColor = .systemBackground
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        navigationController?.navigationBar.isHidden = true
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        navigationController?.navigationBar.isHidden = false
+    }
+    
     
     func configureHeaderLabel() {
         view.addSubview(headerLabel)
@@ -134,23 +142,36 @@ class HomeViewController: UIViewController {
         let tappedImageView = tapGestureRecognizer.view as! UIImageView
         let tappedEggStyle:String
         
+        let detailVC = DetailViewController()
         
         switch tappedImageView {
             
         case eggOneImageView:
             tappedEggStyle = "Easy"
+            detailVC.selectedEggLabel.text = Eggs.eggType(type: .easy)[0]
+            detailVC.selectedEggImageView = UIImageView(image: UIImage(named: "egg-1"))
+            detailVC.counter = Eggs.cooking(style: .easy)
             break
             
         case eggTwoImageView:
             tappedEggStyle = "Medium"
+            detailVC.selectedEggLabel.text = Eggs.eggType(type: .medium)[0]
+            detailVC.selectedEggImageView = UIImageView(image: UIImage(named: Eggs.eggType(type: .medium)[1]))
+            detailVC.counter = Eggs.cooking(style: .medium)
             break
             
         case eggThreeImageView:
             tappedEggStyle = "Hard"
+            detailVC.selectedEggLabel.text = Eggs.eggType(type: .hard)[0]
+            detailVC.selectedEggImageView = UIImageView(image: UIImage(named: Eggs.eggType(type: .hard)[1]))
+            detailVC.counter = Eggs.cooking(style: .hard)
             break
             
         case eggFourImageView:
             tappedEggStyle = "SoHard"
+            detailVC.selectedEggLabel.text = Eggs.eggType(type: .soHard)[0]
+            detailVC.selectedEggImageView = UIImageView(image: UIImage(named: Eggs.eggType(type: .soHard)[1]))
+            detailVC.counter = Eggs.cooking(style: .soHard)
             
         default:
             tappedEggStyle = ""
@@ -158,10 +179,7 @@ class HomeViewController: UIViewController {
             
         }
 
-        // Your action
-        let detailVC = DetailViewController()
-        detailVC.selectedEggImageView = tappedImageView
-        detailVC.selectedEggLabel.text = tappedEggStyle
+        
         navigationController?.pushViewController(detailVC, animated: true)
     }
 
